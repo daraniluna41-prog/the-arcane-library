@@ -1,0 +1,891 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Arcana Library | Biblioteca del Tarot</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #100d19;
+  --panel: #1b1528;
+  --panel2: #241c35;
+  --gold: #d8b875;
+  --purple: #a88acb;
+  --lavender: #c8b5df;
+  --text: #f5efff;
+  --muted: #a99eb8;
+  --border: rgba(216,184,117,.2);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .22;
+  background-image:
+    radial-gradient(white 1px, transparent 1px);
+  background-size: 55px 55px;
+  z-index: -1;
+}
+
+header {
+  padding: 20px 7%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  background: rgba(16,13,25,.94);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(12px);
+}
+
+.logo {
+  font-family: 'Cinzel', serif;
+  color: var(--gold);
+  letter-spacing: 3px;
+  font-size: 19px;
+}
+
+nav {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+}
+
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 13px;
+  transition: .3s;
+}
+
+nav a:hover {
+  color: var(--gold);
+}
+
+.hero {
+  text-align: center;
+  padding: 85px 20px 55px;
+  background:
+    radial-gradient(ellipse at center,
+    rgba(111,72,143,.24), transparent 65%);
+}
+
+.eyebrow {
+  color: var(--gold);
+  letter-spacing: 5px;
+  font-size: 11px;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(34px, 7vw, 65px);
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: 4px;
+}
+
+.hero p {
+  color: var(--muted);
+  max-width: 580px;
+  margin: 20px auto;
+  line-height: 1.8;
+  font-size: 14px;
+}
+
+.ornament {
+  color: var(--gold);
+  font-size: 25px;
+  margin: 20px;
+}
+
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 55px;
+  margin-top: 35px;
+  flex-wrap: wrap;
+}
+
+.stat strong {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 27px;
+  color: var(--gold);
+}
+
+.stat span {
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+main {
+  max-width: 1250px;
+  padding: 20px 25px 80px;
+  margin: auto;
+}
+
+.section-title {
+  font-family: 'Cinzel', serif;
+  color: var(--gold);
+  font-size: 25px;
+  margin-bottom: 10px;
+}
+
+.section-subtitle {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 25px;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+input, select {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 14px 16px;
+  border-radius: 9px;
+  font-family: inherit;
+  outline: none;
+}
+
+input {
+  flex: 1;
+  min-width: 200px;
+}
+
+input:focus, select:focus {
+  border-color: var(--gold);
+}
+
+select option {
+  background: var(--panel);
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-bottom: 35px;
+}
+
+.tab {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--muted);
+  padding: 10px 16px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: .3s;
+}
+
+.tab:hover, .tab.active {
+  background: var(--gold);
+  color: #20172a;
+  border-color: var(--gold);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+  gap: 22px;
+}
+
+.card {
+  background: linear-gradient(145deg, #261d37, #171220);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 13px;
+  cursor: pointer;
+  transition: .3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-7px);
+  border-color: var(--gold);
+  box-shadow: 0 12px 35px rgba(0,0,0,.35);
+}
+
+.card-art {
+  height: 205px;
+  border: 1px solid rgba(216,184,117,.5);
+  border-radius: 7px;
+  background:
+    radial-gradient(circle at 50% 40%, #72548b, #24172f 70%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-art::before {
+  content: "✦";
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  color: var(--gold);
+}
+
+.card-art::after {
+  content: "✦";
+  position: absolute;
+  bottom: 10px;
+  right: 12px;
+  color: var(--gold);
+}
+
+.card-number {
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.card-symbol {
+  font-size: 65px;
+  filter: drop-shadow(0 0 12px rgba(216,184,117,.4));
+}
+
+.card-label {
+  font-family: 'Cinzel', serif;
+  color: var(--gold);
+  font-size: 12px;
+  margin-top: 12px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.card-info {
+  padding: 13px 3px 5px;
+}
+
+.card-info h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.card-info p {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.favorite {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  background: rgba(16,13,25,.85);
+  border: 1px solid var(--border);
+  color: var(--gold);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.favorite.saved {
+  background: var(--gold);
+  color: #20172a;
+}
+
+.empty {
+  grid-column: 1/-1;
+  padding: 60px 15px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  background: rgba(0,0,0,.8);
+  backdrop-filter: blur(8px);
+  justify-content: center;
+  align-items: center;
+  padding: 18px;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal-content {
+  background: #1b1528;
+  border: 1px solid var(--gold);
+  border-radius: 15px;
+  width: 100%;
+  max-width: 680px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 30px;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 18px;
+  color: var(--gold);
+  background: none;
+  border: none;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.modal-top {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.modal-symbol {
+  font-size: 85px;
+  margin: 10px;
+}
+
+.modal-top h2 {
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+  font-size: 27px;
+}
+
+.modal-top p {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+.meanings {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.meaning {
+  background: var(--panel2);
+  border-radius: 10px;
+  padding: 18px;
+}
+
+.meaning h3 {
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.meaning p {
+  color: #c9c0d4;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.keywords {
+  margin-top: 20px;
+  color: var(--lavender);
+  font-size: 12px;
+  line-height: 2;
+}
+
+.disclaimer {
+  margin-top: 25px;
+  color: var(--muted);
+  font-size: 11px;
+  text-align: center;
+  line-height: 1.7;
+}
+
+footer {
+  text-align: center;
+  padding: 35px 20px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+footer span {
+  color: var(--gold);
+}
+
+@media(max-width:600px) {
+  header {
+    padding: 16px;
+  }
+  .logo {
+    font-size: 14px;
+  }
+  nav {
+    gap: 10px;
+  }
+  nav a {
+    font-size: 10px;
+  }
+  .hero {
+    padding-top: 65px;
+  }
+  .grid {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 12px;
+  }
+  .card-art {
+    height: 175px;
+  }
+  .meanings {
+    grid-template-columns: 1fr;
+  }
+  .modal-content {
+    padding: 22px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">✧ ARCANA LIBRARY</div>
+  <nav>
+    <a href="#inicio">Inicio</a>
+    <a href="#biblioteca">Biblioteca</a>
+    <a href="#favoritos" onclick="showFavorites()">Favoritos ♡</a>
+  </nav>
+</header>
+
+<section class="hero" id="inicio">
+  <div class="eyebrow">✦ DESCUBRE EL MUNDO DEL TAROT ✦</div>
+  <h1>The Arcana Library</h1>
+  <div class="ornament">☽ ✧ ☾</div>
+  <p>
+    Un espacio dedicado al simbolismo, los misterios y las
+    historias de las 78 cartas del tarot. Explora cada carta
+    y descubre sus diferentes interpretaciones.
+  </p>
+
+  <div class="stats">
+    <div class="stat">
+      <strong>78</strong>
+      <span>CARTAS</span>
+    </div>
+    <div class="stat">
+      <strong>22</strong>
+      <span>ARCANOS MAYORES</span>
+    </div>
+    <div class="stat">
+      <strong>56</strong>
+      <span>ARCANOS MENORES</span>
+    </div>
+  </div>
+</section>
+
+<main id="biblioteca">
+
+  <h2 class="section-title">La colección</h2>
+  <p class="section-subtitle">
+    Explora las cartas y consulta sus significados.
+  </p>
+
+  <div class="controls">
+    <input id="search" type="text"
+      placeholder="⌕ Buscar una carta..."
+      oninput="renderCards()">
+
+    <select id="order" onchange="renderCards()">
+      <option value="default">Orden original</option>
+      <option value="az">Nombre A - Z</option>
+    </select>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="setFilter('Todos',this)">Todas</button>
+    <button class="tab" onclick="setFilter('Mayor',this)">Arcanos mayores</button>
+    <button class="tab" onclick="setFilter('Copas',this)">Copas</button>
+    <button class="tab" onclick="setFilter('Espadas',this)">Espadas</button>
+    <button class="tab" onclick="setFilter('Bastos',this)">Bastos</button>
+    <button class="tab" onclick="setFilter('Oros',this)">Oros</button>
+    <button class="tab" onclick="showFavorites(this)">♡ Favoritos</button>
+  </div>
+
+  <div id="counter" class="section-subtitle"></div>
+  <div class="grid" id="cards"></div>
+
+  <p class="disclaimer">
+    Las interpretaciones de esta biblioteca son simbólicas y culturales.
+    El tarot puede utilizarse como herramienta de reflexión y entretenimiento;
+    no representa predicciones científicas ni certezas sobre el futuro.
+  </p>
+
+</main>
+
+<div class="modal" id="modal" onclick="closeOutside(event)">
+  <div class="modal-content">
+    <button class="close" onclick="closeModal()">×</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="ornament">✧ ☽ ✧</div>
+  <p>THE ARCANA LIBRARY</p>
+  <p style="margin-top:10px">
+    Un universo de símbolos y significados.
+  </p>
+  <p style="margin-top:15px">
+    Creado con <span>✦</span> para los amantes del tarot.
+  </p>
+</footer>
+
+<script>
+
+// BASE DE DATOS DE LAS CARTAS
+
+const major = [
+["El Loco","🃏","Nuevos comienzos, libertad y espontaneidad.","Imprudencia, falta de dirección y riesgos sin pensar.","Aventura, inocencia, posibilidades."],
+["El Mago","🪄","Habilidad, creatividad y capacidad para actuar.","Manipulación, engaño y potencial desaprovechado.","Acción, talento, iniciativa."],
+["La Sacerdotisa","🌙","Intuición, sabiduría interior y misterio.","Secretos, desconexión emocional y confusión.","Intuición, conocimiento, silencio."],
+["La Emperatriz","👑","Abundancia, creatividad y cuidado.","Dependencia, bloqueo creativo y exceso de protección.","Fertilidad simbólica, belleza, crecimiento."],
+["El Emperador","♔","Estabilidad, autoridad y organización.","Rigidez, control excesivo y autoritarismo.","Estructura, liderazgo, disciplina."],
+["El Hierofante","📜","Tradición, aprendizaje y orientación.","Rebeldía, dogmas y cuestionamiento de reglas.","Tradición, enseñanza, valores."],
+["Los Enamorados","♡","Unión, armonía y decisiones importantes.","Indecisión, desequilibrio y desacuerdos.","Amor, elección, conexión."],
+["El Carro","🏇","Determinación, avance y victoria.","Falta de control, obstáculos y prisa.","Voluntad, progreso, dirección."],
+["La Fuerza","🦁","Valentía, paciencia y fortaleza interior.","Inseguridad, impulsividad y falta de confianza.","Coraje, paciencia, autocontrol."],
+["El Ermitaño","🏮","Reflexión, búsqueda interior y sabiduría.","Aislamiento, soledad y evasión.","Introspección, calma, aprendizaje."],
+["La Rueda de la Fortuna","☸","Cambios, ciclos y nuevas oportunidades.","Resistencia al cambio e inestabilidad.","Destino simbólico, ciclos, cambio."],
+["La Justicia","⚖","Equilibrio, honestidad y responsabilidad.","Injusticia, falta de objetividad y evasión.","Verdad, equilibrio, consecuencias."],
+["El Colgado","🪢","Pausa, perspectiva y aceptación.","Estancamiento, resistencia y sacrificio innecesario.","Paciencia, perspectiva, pausa."],
+["La Muerte","🦋","Transformación, cierre de etapas y renovación.","Resistencia a los cambios y dificultad para soltar.","Cambio, transformación, final de ciclo."],
+["La Templanza","🏺","Armonía, moderación y equilibrio.","Excesos, impaciencia y desbalance.","Calma, armonía, moderación."],
+["El Diablo","⛓","Apegos, tentaciones y patrones que limitan.","Liberación, conciencia y recuperación del control.","Deseos, ataduras, tentación."],
+["La Torre","⚡","Cambios repentinos y ruptura de estructuras.","Miedo al cambio y resistencia a reconocer problemas.","Revelación, transformación, ruptura."],
+["La Estrella","⭐","Esperanza, inspiración y renovación.","Desánimo, inseguridad y pérdida de confianza.","Fe, inspiración, tranquilidad."],
+["La Luna","🌕","Sueños, intuición e incertidumbre.","Confusión, temores e ilusiones.","Misterio, imaginación, intuición."],
+["El Sol","☀️","Alegría, claridad y vitalidad.","Exceso de optimismo y expectativas frustradas.","Éxito, energía, felicidad."],
+["El Juicio","📯","Despertar, reflexión y renovación.","Autocrítica excesiva y dificultad para avanzar.","Decisiones, evaluación, renacimiento."],
+["El Mundo","🌍","Logro, realización y culminación.","Falta de cierre e incompletitud.","Éxito, plenitud, culminación."]
+];
+
+const suits = {
+  Copas: {
+    symbol:"🏆",
+    meanings:[
+      ["Nuevos sentimientos y oportunidades emocionales.","Emociones bloqueadas o expectativas poco realistas."],
+      ["Unión, colaboración y conexión.","Desequilibrio y falta de cooperación."],
+      ["Celebración, amistad y alegría compartida.","Excesos, conflictos y aislamiento."],
+      ["Contemplación y reevaluación emocional.","Nuevas oportunidades y disposición a participar."],
+      ["Pérdida, tristeza y decepción.","Aceptación, recuperación y avance."],
+      ["Nostalgia, recuerdos y ternura.","Apego al pasado y dificultad para crecer."],
+      ["Imaginación, opciones y fantasía.","Claridad, enfoque y decisiones realistas."],
+      ["Búsqueda personal y dejar atrás una etapa.","Miedo a cambiar o resistencia a avanzar."],
+      ["Satisfacción, gratitud y bienestar.","Insatisfacción y deseos poco realistas."],
+      ["Armonía, familia y alegría compartida.","Tensiones familiares y expectativas incumplidas."]
+    ]
+  },
+  Espadas: {
+    symbol:"⚔️",
+    meanings:[
+      ["Claridad mental y nuevas ideas.","Confusión y falta de comunicación."],
+      ["Dudas y decisiones difíciles.","Información oculta que sale a la luz."],
+      ["Tristeza, decepción y separación.","Recuperación y aceptación."],
+      ["Descanso y reflexión mental.","Agotamiento e inquietud."],
+      ["Conflicto, tensión y competencia.","Reconciliación o resolución de problemas."],
+      ["Transición, aprendizaje y movimiento.","Dificultad para dejar atrás una situación."],
+      ["Estrategia, discreción y cautela.","Honestidad y consecuencias de las acciones."],
+      ["Sensación de limitación y dudas.","Recuperación de la confianza y libertad."],
+      ["Preocupaciones, estrés y pensamientos repetitivos.","Alivio, búsqueda de apoyo y esperanza."],
+      ["Cierre doloroso de una etapa.","Recuperación después de una dificultad."]
+    ]
+  },
+  Bastos: {
+    symbol:"🔥",
+    meanings:[
+      ["Inspiración y nuevos proyectos.","Retrasos y falta de motivación."],
+      ["Planificación y visión del futuro.","Dudas y falta de preparación."],
+      ["Expansión, oportunidades y progreso.","Obstáculos y retrasos."],
+      ["Celebración, estabilidad y comunidad.","Tensiones en el entorno y cambios."],
+      ["Competencia, diferencias y desafíos.","Resolución de conflictos y acuerdos."],
+      ["Reconocimiento y confianza.","Necesidad de reconocer los propios logros."],
+      ["Defender ideas y mantener la posición.","Cansancio y sensación de estar superado."],
+      ["Movimiento rápido y noticias.","Retrasos e impaciencia."],
+      ["Perseverancia y resistencia.","Agotamiento y actitud defensiva."],
+      ["Responsabilidades y esfuerzo acumulado.","Delegar tareas y aprender a poner límites."]
+    ]
+  },
+  Oros: {
+    symbol:"🪙",
+    meanings:[
+      ["Oportunidades materiales y nuevos proyectos.","Falta de planificación y oportunidades desaprovechadas."],
+      ["Adaptación y equilibrio de responsabilidades.","Desorganización e inestabilidad."],
+      ["Trabajo en equipo y aprendizaje.","Falta de cooperación y desinterés."],
+      ["Seguridad, ahorro y estabilidad.","Apego excesivo a los recursos."],
+      ["Dificultades materiales y necesidad de apoyo.","Recuperación y búsqueda de ayuda."],
+      ["Generosidad, equilibrio y apoyo.","Dependencia y desigualdad."],
+      ["Paciencia y resultados a largo plazo.","Impaciencia y falta de progreso."],
+      ["Disciplina, práctica y dedicación.","Desinterés y falta de constancia."],
+      ["Independencia y satisfacción personal.","Dependencia o inseguridad."],
+      ["Estabilidad familiar y patrimonio.","Inseguridad y desacuerdos económicos."]
+    ]
+  }
+};
+
+const court = {
+  Copas:["Sota de Copas","Caballero de Copas","Reina de Copas","Rey de Copas"],
+  Espadas:["Sota de Espadas","Caballero de Espadas","Reina de Espadas","Rey de Espadas"],
+  Bastos:["Sota de Bastos","Caballero de Bastos","Reina de Bastos","Rey de Bastos"],
+  Oros:["Sota de Oros","Caballero de Oros","Reina de Oros","Rey de Oros"]
+};
+
+const courtMeanings = {
+  Copas:[
+    ["Sensibilidad, curiosidad emocional y creatividad.","Inmadurez emocional y decepción."],
+    ["Romanticismo, propuestas y búsqueda de inspiración.","Impulsividad emocional e idealización."],
+    ["Empatía, intuición y comprensión.","Dependencia emocional y desbordamiento."],
+    ["Madurez emocional, equilibrio y comprensión.","Desconexión emocional y cambios de humor."]
+  ],
+  Espadas:[
+    ["Curiosidad, observación y nuevas ideas.","Rumores, precipitación y comunicación confusa."],
+    ["Rapidez, decisión y determinación.","Agresividad e impulsividad."],
+    ["Independencia, claridad y objetividad.","Frialdad y críticas excesivas."],
+    ["Intelecto, liderazgo y razonamiento.","Rigidez, autoritarismo y juicio severo."]
+  ],
+  Bastos:[
+    ["Entusiasmo y descubrimiento.","Falta de dirección y retrasos."],
+    ["Aventura, energía y acción.","Impaciencia e inconstancia."],
+    ["Confianza, independencia y creatividad.","Celos, inseguridad y exigencia."],
+    ["Liderazgo, visión y determinación.","Impulsividad y arrogancia."]
+  ],
+  Oros:[
+    ["Aprendizaje y nuevas oportunidades.","Falta de disciplina y distracción."],
+    ["Constancia, responsabilidad y paciencia.","Estancamiento y terquedad."],
+    ["Abundancia, cuidado y estabilidad.","Dependencia material y descuido."],
+    ["Seguridad, experiencia y prosperidad.","Control excesivo y materialismo."]
+  ]
+};
+
+const cards = [];
+
+major.forEach((c,i)=>{
+  cards.push({
+    name:c[0], symbol:c[1], number:roman(i),
+    category:"Mayor", description:c[2],
+    reversed:c[3], keywords:c[4]
+  });
+});
+
+const ranks = ["As","Dos","Tres","Cuatro","Cinco","Seis","Siete","Ocho","Nueve","Diez"];
+
+Object.keys(suits).forEach(suit=>{
+  suits[suit].meanings.forEach((m,i)=>{
+    cards.push({
+      name:ranks[i]+" de "+suit,
+      symbol:suits[suit].symbol,
+      number:"—",
+      category:suit,
+      description:m[0],
+      reversed:m[1],
+      keywords:suit+", simbolismo, reflexión"
+    });
+  });
+
+  court[suit].forEach((name,i)=>{
+    const m=courtMeanings[suit][i];
+    cards.push({
+      name:name,
+      symbol:suits[suit].symbol,
+      number:"—",
+      category:suit,
+      description:m[0],
+      reversed:m[1],
+      keywords:suit+", personalidad, energía"
+    });
+  });
+});
+
+function roman(num) {
+  const values=[
+    [10,"X"],[9,"IX"],[5,"V"],[4,"IV"],[1,"I"]
+  ];
+  let result="";
+  values.forEach(([value,symbol])=>{
+    while(num>=value){
+      result+=symbol;
+      num-=value;
+    }
+  });
+  return result;
+}
+
+// INTERACCIÓN Y FAVORITOS
+
+let currentFilter="Todos";
+let favorites=JSON.parse(localStorage.getItem("arcanaFavorites")||"[]");
+let onlyFavorites=false;
+
+function saveFavorites(){
+  localStorage.setItem("arcanaFavorites",JSON.stringify(favorites));
+}
+
+function setFilter(filter,button){
+  currentFilter=filter;
+  onlyFavorites=false;
+  document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));
+  button.classList.add("active");
+  renderCards();
+}
+
+function showFavorites(button){
+  onlyFavorites=true;
+  currentFilter="Todos";
+  document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));
+  if(button) button.classList.add("active");
+  renderCards();
+}
+
+function toggleFavorite(name,event){
+  event.stopPropagation();
+
+  if(favorites.includes(name)){
+    favorites=favorites.filter(n=>n!==name);
+  }else{
+    favorites.push(name);
+  }
+
+  saveFavorites();
+  renderCards();
+}
+
+function renderCards(){
+  const search=document.getElementById("search").value.toLowerCase();
+  const order=document.getElementById("order").value;
+
+  let filtered=cards.filter(card=>{
+    const matchesSearch=card.name.toLowerCase().includes(search);
+    const matchesFilter=currentFilter==="Todos"||card.category===currentFilter;
+    const matchesFavorite=!onlyFavorites||favorites.includes(card.name);
+    return matchesSearch&&matchesFilter&&matchesFavorite;
+  });
+
+  if(order==="az"){
+    filtered.sort((a,b)=>a.name.localeCompare(b.name,"es"));
+  }
+
+  document.getElementById("counter").textContent=
+    "Mostrando "+filtered.length+" de "+cards.length+" cartas";
+
+  const container=document.getElementById("cards");
+
+  if(filtered.length===0){
+    container.innerHTML='<div class="empty">☽ No se encontraron cartas. Intenta con otra búsqueda. ☾</div>';
+    return;
+  }
+
+  container.innerHTML=filtered.map(card=>`
+    <article class="card" onclick="openCard('${card.name.replace(/'/g,"\\'")}')">
+      <button class="favorite ${favorites.includes(card.name)?"saved":""}"
+        onclick="toggleFavorite('${card.name.replace(/'/g,"\\'")}',event)"
+        aria-label="Guardar favorito">
+        ${favorites.includes(card.name)?"♥":"♡"}
+      </button>
+      <div class="card-art">
+        <div class="card-number">${card.number}</div>
+        <div class="card-symbol">${card.symbol}</div>
+        <div class="card-label">${card.name}</div>
+      </div>
+      <div class="card-info">
+        <h3>${card.name}</h3>
+        <p>${card.category==="Mayor"?"Arcano mayor":"Arcano menor · "+card.category}</p>
+      </div>
+    </article>
+  `).join("");
+}
+
+// VENTANA DE INFORMACIÓN
+
+function openCard(name){
+  const card=cards.find(c=>c.name===name);
+  if(!card)return;
+
+  document.getElementById("modalBody").innerHTML=`
+    <div class="modal-top">
+      <div class="eyebrow">${card.category==="Mayor"?"ARCANO MAYOR":"ARCANO MENOR"}</div>
+      <div class="modal-symbol">${card.symbol}</div>
+      <h2>${card.name}</h2>
+      <p>${card.category==="Mayor"?"Número "+card.number:"Palo de "+card.category}</p>
+    </div>
+
+    <div class="meanings">
+      <div class="meaning">
+        <h3>✦ Al derecho</h3>
+        <p>${card.description}</p>
+      </div>
+      <div class="meaning">
+        <h3>☾ Invertida</h3>
+        <p>${card.reversed}</p>
+      </div>
+    </div>
+
+    <div class="keywords">
+      <strong>Palabras clave:</strong> ${card.keywords}
+    </div>
+
+    <div class="disclaimer">
+      Interpretación simbólica. El significado puede variar según
+      el contexto y las cartas que acompañan a esta carta.
+    </div>
+  `;
+
+  document.getElementById("modal").classList.add("show");
+}
+
+function closeModal(){
+  document.getElementById("modal").classList.remove("show");
+}
+
+function closeOutside(event){
+  if(event.target.id==="modal")closeModal();
+}
+
+document.addEventListener("keydown",event=>{
+  if(event.key==="Escape")closeModal();
+});
+
+renderCards();
+
+</script>
+</body>
+</html>
